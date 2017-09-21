@@ -13,15 +13,15 @@ public class UIDraggable : MonoBehaviour, IPointerClickHandler, IDragHandler, IB
     private float offsetY;
     private float offsetX;
 
-    public bool KeepInScreen = true;
-    public bool SetAsLastSiblingOnDrag = true;
-    public bool SetAsLastSiblingOnEnable = true;
-    public bool ChangeOpacity = true;
-    public float DraggedOpacity = 0.7f;
+    public bool keepInScreen = true;
+    public bool setAsLastSiblingOnDrag = true;
+    public bool setAsLastSiblingOnEnable = true;
+    public bool changeOpacity = true;
+    public float draggedOpacity = 0.7f;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (SetAsLastSiblingOnDrag)
+        if (setAsLastSiblingOnDrag)
             transform.SetAsLastSibling();
     }
 
@@ -31,13 +31,13 @@ public class UIDraggable : MonoBehaviour, IPointerClickHandler, IDragHandler, IB
         offsetY = transform.position.y - Input.mousePosition.y;
 
         if (group != null)
-            group.alpha = DraggedOpacity;
+            group.alpha = draggedOpacity;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
-        if (SetAsLastSiblingOnDrag)
+        if (setAsLastSiblingOnDrag)
             transform.SetAsLastSibling();
         UpdateKeepInScreen();
     }
@@ -51,7 +51,7 @@ public class UIDraggable : MonoBehaviour, IPointerClickHandler, IDragHandler, IB
 
     public void UpdateKeepInScreen()
     {
-        if (!KeepInScreen)
+        if (!keepInScreen)
             return;
 
         var oldPosition = transform.position;
@@ -86,7 +86,7 @@ public class UIDraggable : MonoBehaviour, IPointerClickHandler, IDragHandler, IB
 
     private void OnEnable()
     {
-        if (SetAsLastSiblingOnEnable)
+        if (setAsLastSiblingOnEnable)
             transform.SetAsLastSibling();
     }
 }
