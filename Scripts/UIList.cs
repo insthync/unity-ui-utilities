@@ -1,14 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIList<T> : UIBase where T : MonoBehaviour
 {
     public readonly Dictionary<string, T> Items = new Dictionary<string, T>();
+    public GameObject emptyInfoObject;
     public Transform container;
     public T itemPrefab;
 
-    public virtual T SetItem(string id)
+    private void Update()
+    {
+        if (emptyInfoObject != null)
+            emptyInfoObject.SetActive(Items.Count == 0);
+    }
+
+    public virtual T SetListItem(string id)
     {
         if (string.IsNullOrEmpty(id))
             return null;
@@ -23,7 +31,7 @@ public class UIList<T> : UIBase where T : MonoBehaviour
         return newItem;
     }
 
-    public virtual bool RemoveItem(string id)
+    public virtual bool RemoveListItem(string id)
     {
         if (Items.ContainsKey(id))
         {
@@ -37,10 +45,12 @@ public class UIList<T> : UIBase where T : MonoBehaviour
         return false;
     }
 
-    public virtual void ClearItems()
+    public virtual void ClearListItems()
     {
-        foreach (var item in Items.Values)
+        var values = new List<T>(Items.Values);
+        for (var i = values.Count - 1; i >= 0; --i)
         {
+            var item = values[i];
             Destroy(item.gameObject);
         }
         Items.Clear();

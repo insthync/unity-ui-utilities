@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-///     Adding this script to UI elements makes them draggable
-///     Based on Barebone Masterserver - Draggable script
+/// Adding this script to UI elements makes them draggable
 /// </summary>
 public class UIDraggable : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {

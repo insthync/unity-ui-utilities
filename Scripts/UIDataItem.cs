@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum UIDataItemClickMode
@@ -10,20 +11,29 @@ public enum UIDataItemClickMode
     Disable,
 }
 
-public abstract class UIDataItem<T> : UIBase where T : class
+[System.Serializable]
+public class UIDataItemEvent : UnityEvent<UIDataItem> { }
+
+public abstract class UIDataItem : UIBase
 {
     // Decoration
     public bool selected;
-    private bool dirtySelected;
+    protected bool dirtySelected;
     public GameObject selectedObject;
+    public GameObject emptyInfoObject;
     // Events
     public UIDataItemClickMode clickMode = UIDataItemClickMode.Default;
-    public System.Action<UIDataItem<T>> eventClick;
-    public System.Action<UIDataItem<T>> eventSelect;
-    public System.Action<UIDataItem<T>> eventDeselect;
+    public UIDataItemEvent eventClick;
+    public UIDataItemEvent eventSelect;
+    public UIDataItemEvent eventDeselect;
+    public abstract object GetData();
+}
+
+public abstract class UIDataItem<T> : UIDataItem where T : class, new()
+{
     // Data
     public T data;
-    private T dirtyData;
+    protected T dirtyData;
 
     public virtual bool Selected
     {
@@ -36,7 +46,16 @@ public abstract class UIDataItem<T> : UIBase where T : class
         return data != dirtyData;
     }
 
-    private void Update()
+    protected override void Awake()
+    {
+        base.Awake();
+        if (selectedObject != null)
+            selectedObject.SetActive(false);
+        if (emptyInfoObject != null)
+            emptyInfoObject.SetActive(false);
+    }
+
+    protected virtual void Update()
     {
         if (IsDirty())
             UpdateLogic();
@@ -47,6 +66,9 @@ public abstract class UIDataItem<T> : UIBase where T : class
                 selectedObject.SetActive(Selected);
             dirtySelected = Selected;
         }
+
+        if (emptyInfoObject != null)
+            emptyInfoObject.SetActive(IsEmpty());
     }
 
     private void UpdateLogic()
@@ -82,23 +104,35 @@ public abstract class UIDataItem<T> : UIBase where T : class
     {
         Selected = true;
         if (invokeEvent)
-            eventSelect(this);
+            eventSelect.Invoke(this);
     }
 
     public virtual void Deselect(bool invokeEvent = true)
     {
         Selected = false;
         if (invokeEvent)
-            eventDeselect(this);
+            eventDeselect.Invoke(this);
     }
 
     public virtual void Click(bool invokeEvent = true)
     {
         Selected = false;
         if (invokeEvent)
-            eventClick(this);
+            eventClick.Invoke(this);
+    }
+
+    public override object GetData()
+    {
+        return data;
+    }
+
+    public void SetData(T newData)
+    {
+        data = newData;
+        ForceUpdate();
     }
 
     public abstract void UpdateData();
     public abstract void Clear();
+    public abstract bool IsEmpty();
 }
