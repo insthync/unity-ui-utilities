@@ -17,12 +17,6 @@ public class UIFollowWorldObject : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        UpdatePosition();
-        TempPositionFollower.UpdatePosition();
-    }
-
     private void FixedUpdate()
     {
         UpdatePosition();
@@ -32,6 +26,7 @@ public class UIFollowWorldObject : MonoBehaviour
     {
         if (targetObject == null)
             return;
+
         TempPositionFollower.targetPosition = targetObject.transform.position;
     }
 }
