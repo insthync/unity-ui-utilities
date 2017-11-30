@@ -5,20 +5,33 @@ using UnityEngine;
 [RequireComponent(typeof(UIFollowWorldPosition))]
 public class UIFollowWorldObject : MonoBehaviour
 {
-    public GameObject targetObject;
+    public Transform targetObject;
     private UIFollowWorldPosition tempPositionFollower;
     public UIFollowWorldPosition TempPositionFollower
     {
         get
         {
             if (tempPositionFollower == null)
-                tempPositionFollower = new UIFollowWorldPosition();
+                tempPositionFollower = GetComponent<UIFollowWorldPosition>();
             return tempPositionFollower;
         }
     }
 
+    private void OnEnable()
+    {
+        UpdatePosition();
+        TempPositionFollower.UpdatePosition();
+    }
+
     private void FixedUpdate()
     {
+        UpdatePosition();
+    }
+
+    public void UpdatePosition()
+    {
+        if (targetObject == null)
+            return;
         TempPositionFollower.targetPosition = targetObject.transform.position;
     }
 }

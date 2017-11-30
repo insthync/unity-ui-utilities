@@ -17,7 +17,17 @@ public class UIFollowWorldPosition : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        UpdatePosition();
+    }
+
     private void FixedUpdate()
+    {
+        UpdatePosition();
+    }
+
+    public void UpdatePosition()
     {
         Vector2 pos = RectTransformUtility.WorldToScreenPoint(Camera.main, targetPosition);
         TempTransform.position = pos;
