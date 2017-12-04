@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
 public class UIFollowWorldPosition : MonoBehaviour
 {
@@ -10,6 +11,17 @@ public class UIFollowWorldPosition : MonoBehaviour
     public Vector3 targetPosition;
     private float awakeTime;
     private bool alreadyShown;
+    private CanvasGroup tempCanvasGroup;
+    public CanvasGroup TempCanvasGroup
+    {
+        get
+        {
+            if (tempCanvasGroup == null)
+                tempCanvasGroup = GetComponent<CanvasGroup>();
+            return tempCanvasGroup;
+        }
+    }
+
     private RectTransform tempTransform;
     public RectTransform TempTransform
     {
@@ -24,7 +36,7 @@ public class UIFollowWorldPosition : MonoBehaviour
     private void Awake()
     {
         awakeTime = Time.unscaledTime;
-        TempTransform.EnableComponentsInChildren<Graphic>(false);
+        TempCanvasGroup.alpha = 0;
     }
 
     private void FixedUpdate()
@@ -32,7 +44,7 @@ public class UIFollowWorldPosition : MonoBehaviour
         UpdatePosition();
         if (Time.unscaledTime - awakeTime >= ShowDelay && !alreadyShown)
         {
-            TempTransform.EnableComponentsInChildren<Graphic>(true);
+            TempCanvasGroup.alpha = 1;
             alreadyShown = true;
         }
     }
