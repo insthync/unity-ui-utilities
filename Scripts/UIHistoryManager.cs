@@ -7,7 +7,7 @@ public class UIHistoryManager : UIBase
     public UIBase defaultEntry;
     public GameObject[] showingObjectsWhenStayAtDefaultEntry;
     public GameObject[] hiddingObjectsWhenStayAtDefaultEntry;
-    public static readonly Stack<UIBase> ShownUis = new Stack<UIBase>();
+    public readonly Stack<UIBase> ShownUis = new Stack<UIBase>();
 
     protected override void Awake()
     {
