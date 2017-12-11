@@ -26,9 +26,9 @@ public class UIMessageDialog : UIBase
 
     public Text textTitle;
     public Text titleContent;
-    public UnityEvent eventYes;
-    public UnityEvent eventNo;
-    public UnityEvent eventCancel;
+    public UnityAction actionYes;
+    public UnityAction actionNo;
+    public UnityAction actionCancel;
 
     public string Title
     {
@@ -57,19 +57,22 @@ public class UIMessageDialog : UIBase
 
     public void OnClickYes()
     {
-        eventYes.Invoke();
+        if (actionYes != null)
+            actionYes.Invoke();
         Hide();
     }
 
     public void OnClickNo()
     {
-        eventNo.Invoke();
+        if (actionNo != null)
+            actionNo.Invoke();
         Hide();
     }
 
     public void OnClickCancel()
     {
-        eventCancel.Invoke();
+        if (actionCancel != null)
+            actionCancel.Invoke();
         Hide();
     }
 }
