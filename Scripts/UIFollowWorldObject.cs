@@ -17,7 +17,13 @@ public class UIFollowWorldObject : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Awake()
+    {
+        // Set target position to hidden position
+        TempPositionFollower.targetPosition = Camera.main.transform.position - (Vector3.up * 10000f);
+    }
+
+    private void LateUpdate()
     {
         UpdatePosition();
     }

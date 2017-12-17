@@ -7,9 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class UIFollowWorldPosition : MonoBehaviour
 {
-    public readonly float ShowDelay = 0.5f;
     public Vector3 targetPosition;
-    private float awakeTime;
     private bool alreadyShown;
     private CanvasGroup tempCanvasGroup;
     public CanvasGroup TempCanvasGroup
@@ -35,14 +33,13 @@ public class UIFollowWorldPosition : MonoBehaviour
 
     private void Awake()
     {
-        awakeTime = Time.unscaledTime;
         TempCanvasGroup.alpha = 0;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         UpdatePosition();
-        if (Time.unscaledTime - awakeTime >= ShowDelay && !alreadyShown)
+        if (!alreadyShown)
         {
             TempCanvasGroup.alpha = 1;
             alreadyShown = true;
