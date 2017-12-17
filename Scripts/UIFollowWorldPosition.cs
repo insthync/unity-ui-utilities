@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class UIFollowWorldPosition : MonoBehaviour
 {
-    public readonly float ShowDelay = 0.2f;
+    public readonly float ShowDelay = 0.5f;
     public Vector3 targetPosition;
     private float awakeTime;
     private bool alreadyShown;
