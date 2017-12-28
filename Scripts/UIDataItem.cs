@@ -27,6 +27,8 @@ public abstract class UIDataItem : UIBase
     public UIDataItemEvent eventSelect;
     public UIDataItemEvent eventDeselect;
     public abstract object GetData();
+    [HideInInspector]
+    public UIList list;
 }
 
 public abstract class UIDataItem<T> : UIDataItem where T : class, new()
@@ -88,11 +90,17 @@ public abstract class UIDataItem<T> : UIDataItem where T : class, new()
         switch (clickMode)
         {
             case UIDataItemClickMode.Selection:
-                Selected = !Selected;
-                if (Selected)
-                    Select();
-                else
-                    Deselect();
+                if (list == null ||
+                    list.limitSelection <= 0 ||
+                    list.SelectedAmount < list.limitSelection ||
+                    Selected)
+                {
+                    Selected = !Selected;
+                    if (Selected)
+                        Select();
+                    else
+                        Deselect();
+                }
                 break;
             case UIDataItemClickMode.Default:
                 Click();
