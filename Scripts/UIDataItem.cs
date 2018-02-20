@@ -26,6 +26,7 @@ public abstract class UIDataItem : UIBase
     public UIDataItemEvent eventClick;
     public UIDataItemEvent eventSelect;
     public UIDataItemEvent eventDeselect;
+    public UIDataItemEvent eventUpdate;
     public abstract object GetData();
     [HideInInspector]
     public UIList list;
@@ -78,6 +79,7 @@ public abstract class UIDataItem<T> : UIDataItem where T : class
         Clear();
         UpdateData();
         dirtyData = data;
+        eventUpdate.Invoke(this);
     }
 
     public void ForceUpdate()
