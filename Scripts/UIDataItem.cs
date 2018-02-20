@@ -31,7 +31,7 @@ public abstract class UIDataItem : UIBase
     public UIList list;
 }
 
-public abstract class UIDataItem<T> : UIDataItem where T : class, new()
+public abstract class UIDataItem<T> : UIDataItem where T : class
 {
     // Data
     public T data;

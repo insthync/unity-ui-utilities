@@ -76,7 +76,7 @@ public abstract class UIList<T> : UIList
 
 public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUIDataItem>
     where TUIDataItem : UIDataItem<TUIDataItemType>
-    where TUIDataItemType: class, new()
+    where TUIDataItemType: class
 {
     protected bool isDirtySelection;
     protected readonly List<TUIDataItem> selectedUIList = new List<TUIDataItem>();
