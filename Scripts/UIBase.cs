@@ -11,9 +11,13 @@ public class UIBase : MonoBehaviour
     public UnityEvent eventShow;
     public UnityEvent eventHide;
     private bool isAwaken;
+    private BaseUIExtension uiExtension;
 
     protected virtual void Awake()
     {
+        uiExtension = GetComponent<BaseUIExtension>();
+        if (uiExtension != null)
+            uiExtension.ui = this;
         if (isAwaken)
             return;
         isAwaken = true;
@@ -34,7 +38,10 @@ public class UIBase : MonoBehaviour
     {
         isAwaken = true;
         ValidateRoot();
-        root.SetActive(true);
+        if (uiExtension != null)
+            uiExtension.Show();
+        else
+            root.SetActive(true);
         eventShow.Invoke();
     }
 
@@ -42,14 +49,20 @@ public class UIBase : MonoBehaviour
     {
         isAwaken = true;
         ValidateRoot();
-        root.SetActive(false);
+        if (uiExtension != null)
+            uiExtension.Hide();
+        else
+            root.SetActive(false);
         eventHide.Invoke();
     }
 
     public virtual bool IsVisible()
     {
         ValidateRoot();
-        return root.activeSelf;
+        if (uiExtension != null)
+            return uiExtension.IsVisible();
+        else
+            return root.activeSelf;
     }
 
     public void SetEnableGraphics(bool isEnable)
