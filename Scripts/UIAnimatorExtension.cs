@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIAnimatorExtension : BaseUIExtension
 {
     public string animShowParam = "Show";
+    private bool isShowing;
     private Animator cacheAnimator;
     public Animator CacheAnimator
     {
@@ -17,18 +18,23 @@ public class UIAnimatorExtension : BaseUIExtension
         }
     }
 
+    private void Update()
+    {
+        CacheAnimator.SetBool(animShowParam, isShowing);
+    }
+
     public override void Show()
     {
-        CacheAnimator.SetBool(animShowParam, true);
+        isShowing = true;
     }
 
     public override void Hide()
     {
-        CacheAnimator.SetBool(animShowParam, false);
+        isShowing = false;
     }
 
     public override bool IsVisible()
     {
-        return CacheAnimator.GetBool(animShowParam);
+        return isShowing;
     }
 }

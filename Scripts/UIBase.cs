@@ -15,9 +15,6 @@ public class UIBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        uiExtension = GetComponent<BaseUIExtension>();
-        if (uiExtension != null)
-            uiExtension.ui = this;
         if (isAwaken)
             return;
         isAwaken = true;
@@ -30,6 +27,9 @@ public class UIBase : MonoBehaviour
 
     public void ValidateRoot()
     {
+        uiExtension = GetComponent<BaseUIExtension>();
+        if (uiExtension != null)
+            uiExtension.ui = this;
         if (root == null)
             root = gameObject;
     }
