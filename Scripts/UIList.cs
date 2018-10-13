@@ -10,8 +10,8 @@ public abstract class UIList : UIBase
     public int limitSelection;
     public bool selectable;
     public bool multipleSelection;
-    public UIItemEvent eventSelect;
-    public UIItemEvent eventDeselect;
+    public UIDataItemEvent eventSelect;
+    public UIDataItemEvent eventDeselect;
     public UnityEvent eventSelectionChange;
 }
 
@@ -114,34 +114,30 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
         base.ClearListItems();
     }
 
-    public void DeselectedItems(string exceptId)
+    public void DeselectedItems(UIDataItem exceptUI)
     {
         var items = UIEntries;
         foreach (var keyValuePair in items)
         {
-            var id = keyValuePair.Key;
             var item = keyValuePair.Value;
-            if (item.data == null || id == exceptId)
+            if (item == exceptUI)
                 continue;
             item.Deselect(false);
         }
     }
 
-    protected void OnSelect(UIDataItem ui)
+    protected virtual void OnSelect(UIDataItem ui)
     {
         isDirtySelection = true;
-        var uiItem = ui as UIItem;
-        var item = uiItem.data;
         if (!multipleSelection)
-            DeselectedItems(item.Id);
-        eventSelect.Invoke(uiItem);
+            DeselectedItems(ui);
+        eventSelect.Invoke(ui);
     }
 
-    protected void OnDeselect(UIDataItem ui)
+    protected virtual void OnDeselect(UIDataItem ui)
     {
         isDirtySelection = true;
-        var uiItem = ui as UIItem;
-        eventDeselect.Invoke(uiItem);
+        eventDeselect.Invoke(ui);
     }
 
     protected void MakeSelectedLists()

@@ -30,6 +30,12 @@ public abstract class UIDataItem : UIBase
     public abstract object GetData();
     [HideInInspector]
     public UIList list;
+
+    public virtual bool Selected
+    {
+        get { return selected; }
+        set { selected = value; }
+    }
 }
 
 public abstract class UIDataItem<T> : UIDataItem where T : class
@@ -37,12 +43,6 @@ public abstract class UIDataItem<T> : UIDataItem where T : class
     // Data
     public T data;
     protected T dirtyData;
-
-    public virtual bool Selected
-    {
-        get { return selected; }
-        set { selected = value; }
-    }
 
     public bool IsDirty()
     {
