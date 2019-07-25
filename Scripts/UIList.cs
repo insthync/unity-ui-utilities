@@ -88,10 +88,10 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
         var newItem = base.SetListItem(id);
         if (newItem != null)
         {
+            newItem.list = this;
             newItem.clickMode = UIDataItemClickMode.Disable;
             if (selectable)
             {
-                newItem.list = this;
                 newItem.clickMode = UIDataItemClickMode.Selection;
                 newItem.eventSelect.RemoveListener(OnSelect);
                 newItem.eventSelect.AddListener(OnSelect);
