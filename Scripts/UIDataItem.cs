@@ -38,7 +38,7 @@ public abstract class UIDataItem : UIBase
     }
 }
 
-public abstract class UIDataItem<T> : UIDataItem where T : class
+public abstract class UIDataItem<T> : UIDataItem
 {
     // Data
     public T data;
@@ -46,7 +46,13 @@ public abstract class UIDataItem<T> : UIDataItem where T : class
 
     public bool IsDirty()
     {
-        return data != dirtyData;
+        if (typeof(T).IsClass)
+        {
+            if ((data == null && dirtyData != null) || (data != null && dirtyData == null))
+                return true;
+            return data != null && !data.Equals(dirtyData);
+        }
+        return !data.Equals(dirtyData);
     }
 
     protected override void Awake()

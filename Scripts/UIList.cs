@@ -76,7 +76,6 @@ public abstract class UIList<T> : UIList
 
 public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUIDataItem>
     where TUIDataItem : UIDataItem<TUIDataItemType>
-    where TUIDataItemType: class
 {
     protected bool isDirtySelection;
     protected readonly List<TUIDataItem> selectedUIList = new List<TUIDataItem>();
@@ -150,7 +149,7 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
             {
                 var id = keyValuePair.Key;
                 var uiEntry = keyValuePair.Value;
-                
+
                 if (uiEntry.Selected)
                     MakeSelectedList(id, uiEntry);
             }
