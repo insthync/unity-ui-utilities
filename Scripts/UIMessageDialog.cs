@@ -55,21 +55,21 @@ public class UIMessageDialog : UIBase
         Content = data.content;
     }
 
-    public void OnClickYes()
+    public virtual void OnClickYes()
     {
         if (actionYes != null)
             actionYes.Invoke();
         Hide();
     }
 
-    public void OnClickNo()
+    public virtual void OnClickNo()
     {
         if (actionNo != null)
             actionNo.Invoke();
         Hide();
     }
 
-    public void OnClickCancel()
+    public virtual void OnClickCancel()
     {
         if (actionCancel != null)
             actionCancel.Invoke();
