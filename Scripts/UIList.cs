@@ -48,6 +48,13 @@ public abstract class UIList<T> : UIList
         return newItem;
     }
 
+    public virtual T GetListItem(string id)
+    {
+        if (UIEntries.ContainsKey(id))
+            return UIEntries[id];
+        return null;
+    }
+
     public virtual bool RemoveListItem(string id)
     {
         if (UIEntries.ContainsKey(id))
@@ -139,9 +146,9 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
         eventDeselect.Invoke(ui);
     }
 
-    protected void MakeSelectedLists()
+    protected void MakeSelectedLists(bool forceRebuild = false)
     {
-        if (isDirtySelection)
+        if (isDirtySelection || forceRebuild)
         {
             ClearSelectedLists();
             var items = UIEntries;
@@ -173,21 +180,21 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
         selectedIdList.Clear();
     }
 
-    public List<TUIDataItem> GetSelectedUIList()
+    public List<TUIDataItem> GetSelectedUIList(bool forceRebuild = false)
     {
-        MakeSelectedLists();
+        MakeSelectedLists(forceRebuild);
         return selectedUIList;
     }
 
-    public List<TUIDataItemType> GetSelectedDataList()
+    public List<TUIDataItemType> GetSelectedDataList(bool forceRebuild = false)
     {
-        MakeSelectedLists();
+        MakeSelectedLists(forceRebuild);
         return selectedDataList;
     }
 
-    public List<string> GetSelectedIdList()
+    public List<string> GetSelectedIdList(bool forceRebuild = false)
     {
-        MakeSelectedLists();
+        MakeSelectedLists(forceRebuild);
         return selectedIdList;
     }
 }
