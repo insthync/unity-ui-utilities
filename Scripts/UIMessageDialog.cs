@@ -75,4 +75,10 @@ public class UIMessageDialog : UIBase
             actionCancel.Invoke();
         Hide();
     }
+
+    public virtual void Show(string msg)
+    {
+        Content = msg;
+        Show();
+    }
 }
