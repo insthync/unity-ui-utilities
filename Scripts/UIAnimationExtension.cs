@@ -21,6 +21,7 @@ public class UIAnimationExtension : BaseUIExtension
     public override void Show()
     {
         isShowing = true;
+        ui.root.SetActive(true);
         CacheAnimation[animShowParam].normalizedTime = 0f;
         CacheAnimation[animShowParam].speed = 1f;
         CacheAnimation.Play(animShowParam, PlayMode.StopAll);

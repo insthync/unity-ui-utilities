@@ -25,6 +25,7 @@ public class UIAnimatorExtension : BaseUIExtension
 
     public override void Show()
     {
+        ui.root.SetActive(true);
         isShowing = true;
     }
 
