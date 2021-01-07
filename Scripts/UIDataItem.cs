@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public enum UIDataItemClickMode
 {
@@ -28,6 +25,8 @@ public abstract class UIDataItem : UIBase
     public UIDataItemEvent eventDeselect;
     public UIDataItemEvent eventUpdate;
     public abstract object GetData();
+    public abstract void SetData(object data);
+    public abstract void ForceUpdate();
     [HideInInspector]
     public UIList list;
 
@@ -88,7 +87,7 @@ public abstract class UIDataItem<T> : UIDataItem
         eventUpdate.Invoke(this);
     }
 
-    public void ForceUpdate()
+    public override sealed void ForceUpdate()
     {
         UpdateLogic();
     }
@@ -142,9 +141,9 @@ public abstract class UIDataItem<T> : UIDataItem
         return data;
     }
 
-    public void SetData(T newData)
+    public override void SetData(object newData)
     {
-        data = newData;
+        data = (T)newData;
         ForceUpdate();
     }
 
