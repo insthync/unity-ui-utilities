@@ -56,6 +56,14 @@ public class UIBase : MonoBehaviour
         eventHide.Invoke();
     }
 
+    public virtual void SetVisible(bool isVisible)
+    {
+        if (isVisible && !IsVisible())
+            Show();
+        if (!isVisible && IsVisible())
+            Hide();
+    }
+
     public virtual bool IsVisible()
     {
         ValidateRoot();
