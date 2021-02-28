@@ -147,6 +147,11 @@ public abstract class UIDataItem<T> : UIDataItem
         ForceUpdate();
     }
 
+    public void CopyDataFromUI(UIDataItem ui)
+    {
+        SetData(ui.GetData());
+    }
+
     public abstract void UpdateData();
     public abstract void Clear();
     public abstract bool IsEmpty();
