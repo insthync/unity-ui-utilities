@@ -25,7 +25,7 @@ public abstract class UIList<T> : UIList
     public Transform container;
     public T itemPrefab;
 
-    private void Update()
+    protected virtual void Update()
     {
         if (emptyInfoObject != null)
             emptyInfoObject.SetActive(UIEntries.Count == 0);
