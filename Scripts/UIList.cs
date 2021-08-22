@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public abstract class UIList : UIBase
 {
     public int SelectedAmount { get; protected set; }
     [Header("Selection options/configs")]
+    [FormerlySerializedAs("selectable")]
+    public UIDataItemSelectionMode selectionMode;
     public int limitSelection;
-    public bool selectable;
-    public bool multipleSelection;
     public UIDataItemEvent eventSelect;
     public UIDataItemEvent eventDeselect;
     public UnityEvent eventSelectionChange;
@@ -95,10 +96,9 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
         if (newItem != null)
         {
             newItem.list = this;
-            newItem.clickMode = UIDataItemClickMode.Disable;
-            if (selectable)
+            newItem.selectionMode = selectionMode;
+            if (selectionMode != UIDataItemSelectionMode.Disable)
             {
-                newItem.clickMode = UIDataItemClickMode.Selection;
                 newItem.eventSelect.RemoveListener(OnSelect);
                 newItem.eventSelect.AddListener(OnSelect);
                 newItem.eventDeselect.RemoveListener(OnDeselect);
@@ -135,7 +135,7 @@ public abstract class UIDataItemList<TUIDataItem, TUIDataItemType> : UIList<TUID
     protected virtual void OnSelect(UIDataItem ui)
     {
         isDirtySelection = true;
-        if (!multipleSelection)
+        if (selectionMode != UIDataItemSelectionMode.MultipleToggle)
             DeselectedItems(ui);
         eventSelect.Invoke(ui);
     }

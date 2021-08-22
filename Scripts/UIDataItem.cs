@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public enum UIDataItemClickMode
+public enum UIDataItemSelectionMode
 {
-    Default,
-    Selection,
     Disable,
+    Default,
+    Toggle,
+    MultipleToggle,
 }
 
 [System.Serializable]
@@ -19,8 +21,8 @@ public abstract class UIDataItem : UIBase
     public GameObject selectedObject;
     public GameObject emptyInfoObject;
     // Events
-    public UIDataItemClickMode clickMode = UIDataItemClickMode.Default;
-    public UIDataItemEvent eventClick;
+    [FormerlySerializedAs("clickMode")]
+    public UIDataItemSelectionMode selectionMode = UIDataItemSelectionMode.Default;
     public UIDataItemEvent eventSelect;
     public UIDataItemEvent eventDeselect;
     public UIDataItemEvent eventUpdate;
@@ -94,9 +96,10 @@ public abstract class UIDataItem<T> : UIDataItem
 
     public virtual void OnClick()
     {
-        switch (clickMode)
+        switch (selectionMode)
         {
-            case UIDataItemClickMode.Selection:
+            case UIDataItemSelectionMode.Toggle:
+            case UIDataItemSelectionMode.MultipleToggle:
                 if (list == null ||
                     list.limitSelection <= 0 ||
                     list.SelectedAmount < list.limitSelection ||
@@ -109,7 +112,7 @@ public abstract class UIDataItem<T> : UIDataItem
                         Deselect();
                 }
                 break;
-            case UIDataItemClickMode.Default:
+            case UIDataItemSelectionMode.Default:
                 Click();
                 break;
         }
@@ -133,7 +136,7 @@ public abstract class UIDataItem<T> : UIDataItem
     {
         Selected = false;
         if (invokeEvent)
-            eventClick.Invoke(this);
+            eventSelect.Invoke(this);
     }
 
     public override object GetData()
