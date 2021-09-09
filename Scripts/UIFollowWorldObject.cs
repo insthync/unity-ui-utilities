@@ -6,24 +6,24 @@ using UnityEngine;
 public class UIFollowWorldObject : MonoBehaviour
 {
     public Transform targetObject;
-    private UIFollowWorldPosition tempPositionFollower;
-    public UIFollowWorldPosition TempPositionFollower
+    private UIFollowWorldPosition cachePositionFollower;
+    public UIFollowWorldPosition CachePositionFollower
     {
         get
         {
-            if (tempPositionFollower == null)
-                tempPositionFollower = GetComponent<UIFollowWorldPosition>();
-            return tempPositionFollower;
+            if (cachePositionFollower == null)
+                cachePositionFollower = GetComponent<UIFollowWorldPosition>();
+            return cachePositionFollower;
         }
     }
 
     private void Awake()
     {
         // Set target position to hidden position
-        TempPositionFollower.targetPosition = Camera.main.transform.position - (Vector3.up * 10000f);
+        CachePositionFollower.targetPosition = Camera.main.transform.position - (Vector3.up * 10000f);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         UpdatePosition();
     }
@@ -32,7 +32,6 @@ public class UIFollowWorldObject : MonoBehaviour
     {
         if (targetObject == null)
             return;
-
-        TempPositionFollower.targetPosition = targetObject.transform.position;
+        CachePositionFollower.targetPosition = targetObject.transform.position;
     }
 }
