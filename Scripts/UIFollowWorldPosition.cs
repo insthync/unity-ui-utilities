@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
@@ -25,7 +23,6 @@ public class UIFollowWorldPosition : MonoBehaviour
 
     public void UpdatePosition()
     {
-        Vector2 pos = RectTransformUtility.WorldToScreenPoint(Camera.main, targetPosition);
-        CacheTransform.position = pos;
+        CacheTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, targetPosition);
     }
 }
