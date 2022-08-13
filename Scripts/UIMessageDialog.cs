@@ -53,6 +53,9 @@ public class UIMessageDialog : UIBase
     {
         Title = data.title;
         Content = data.content;
+        actionYes = data.actionYes;
+        actionNo = data.actionNo;
+        actionCancel = data.actionCancel;
     }
 
     public virtual void OnClickYes()
