@@ -13,19 +13,28 @@ public class UIMessageDialog : UIBase
         public UnityAction actionYes;
         public UnityAction actionNo;
         public UnityAction actionCancel;
+        public bool showButtonYes;
+        public bool showButtonNo;
+        public bool showButtonCancel;
 
-        public Data(string title, string content, UnityAction actionYes = null, UnityAction actionNo = null, UnityAction actionCancel = null)
+        public Data(string title, string content, UnityAction actionYes = null, UnityAction actionNo = null, UnityAction actionCancel = null, bool showButtonYes = true, bool showButtonNo = true, bool showButtonCancel = true)
         {
             this.title = title;
             this.content = content;
             this.actionYes = actionYes;
             this.actionNo = actionNo;
             this.actionCancel = actionCancel;
+            this.showButtonYes = showButtonYes;
+            this.showButtonNo = showButtonNo;
+            this.showButtonCancel = showButtonCancel;
         }
     }
 
     public Text textTitle;
     public Text titleContent;
+    public Button buttonYes;
+    public Button buttonNo;
+    public Button buttonCancel;
     public UnityAction actionYes;
     public UnityAction actionNo;
     public UnityAction actionCancel;
@@ -56,6 +65,12 @@ public class UIMessageDialog : UIBase
         actionYes = data.actionYes;
         actionNo = data.actionNo;
         actionCancel = data.actionCancel;
+        if (buttonYes != null)
+            buttonYes.gameObject.SetActive(data.showButtonYes);
+        if (buttonNo != null)
+            buttonNo.gameObject.SetActive(data.showButtonNo);
+        if (buttonCancel != null)
+            buttonCancel.gameObject.SetActive(data.showButtonCancel);
     }
 
     public virtual void OnClickYes()
