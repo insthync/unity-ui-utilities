@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -13,8 +11,6 @@ public class UIInputDialog : UIMessageDialog
     private UnityAction<string> onConfirmText;
     private UnityAction<int> onConfirmInteger;
     private UnityAction<float> onConfirmDecimal;
-    private InputField.ContentType contentType;
-    private int characterLimit;
     private int intDefaultAmount;
     private int? intMinAmount;
     private int? intMaxAmount;
@@ -84,16 +80,6 @@ public class UIInputDialog : UIMessageDialog
         InputLineType = defaultLineType;
     }
 
-    public override void Show()
-    {
-        if (inputContent != null)
-        {
-            inputContent.contentType = contentType;
-            inputContent.characterLimit = characterLimit;
-        }
-        base.Show();
-    }
-
     public void Show(string title,
         string content,
         UnityAction<string> onConfirmText,
@@ -104,8 +90,8 @@ public class UIInputDialog : UIMessageDialog
         Title = title;
         Content = content;
         InputContent = defaultText;
-        this.contentType = contentType;
-        this.characterLimit = characterLimit;
+        InputContentType = contentType;
+        InputCharacterLimit = characterLimit;
         this.onConfirmText = onConfirmText;
         Show();
     }
@@ -139,8 +125,8 @@ public class UIInputDialog : UIMessageDialog
             inputContent.onValueChanged.RemoveAllListeners();
             inputContent.onValueChanged.AddListener(ValidateIntAmount);
         }
-        contentType = InputField.ContentType.IntegerNumber;
-        characterLimit = 0;
+        InputContentType = InputField.ContentType.IntegerNumber;
+        InputCharacterLimit = 0;
         this.onConfirmInteger = onConfirmInteger;
         Show();
     }
@@ -187,8 +173,8 @@ public class UIInputDialog : UIMessageDialog
             inputContent.onValueChanged.RemoveAllListeners();
             inputContent.onValueChanged.AddListener(ValidateFloatAmount);
         }
-        contentType = InputField.ContentType.DecimalNumber;
-        characterLimit = 0;
+        InputContentType = InputField.ContentType.DecimalNumber;
+        InputCharacterLimit = 0;
         this.onConfirmDecimal = onConfirmDecimal;
         Show();
     }
@@ -209,7 +195,7 @@ public class UIInputDialog : UIMessageDialog
 
     public override void OnClickYes()
     {
-        switch (contentType)
+        switch (InputContentType)
         {
             case InputField.ContentType.IntegerNumber:
                 int intAmount = int.Parse(InputContent);
